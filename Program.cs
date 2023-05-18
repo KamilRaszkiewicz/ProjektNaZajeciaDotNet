@@ -1,3 +1,9 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Projekt.Models;
+using Projekt.Models.Entities;
+
 namespace Projekt
 {
     public class Program
@@ -8,6 +14,15 @@ namespace Projekt
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(opts => 
+                opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+                ));
+
+            builder.Services.AddIdentity<User, IdentityRole<int>>()
+                .AddRoles<IdentityRole<int>>()
+                .AddRoleManager<RoleManager<IdentityRole<int>>>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var app = builder.Build();
 
