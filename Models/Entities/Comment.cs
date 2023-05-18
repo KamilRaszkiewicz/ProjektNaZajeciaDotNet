@@ -8,9 +8,9 @@
         public DateTime CreatedAt { get; set; }
 
         public int PostId { get; set; }
-        public Post Post { get; set; }
+        public virtual Post Post { get; set; }
 
         public int AuthorId { get; set; }
-        public User Author { get; set; }
+        public virtual User Author { get; set; }
     }
 }

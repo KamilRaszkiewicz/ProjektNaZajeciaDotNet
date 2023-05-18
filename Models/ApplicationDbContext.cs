@@ -24,7 +24,13 @@ namespace Projekt.Models
         {
             builder.Entity<Post>()
                 .HasMany(p => p.Tags)
-                .WithMany(t => t.Posts)
+                .WithMany(t => t.Posts);
+
+            builder.Entity<User>()
+                .HasMany(u => u.Comments)
+                .WithOne(c => c.Author)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             base.OnModelCreating(builder);
         }

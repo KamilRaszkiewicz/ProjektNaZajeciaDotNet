@@ -6,5 +6,6 @@ namespace Projekt.Models.Entities
     {
         public string? Name { get; set; }
         public virtual IList<Post> Posts { get; set; }
+        public virtual IList<Comment> Comments { get; set; }
     }
 }
