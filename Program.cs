@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Projekt.Interfaces;
 using Projekt.Models;
 using Projekt.Models.Entities;
+using Projekt.Services;
 
 namespace Projekt
 {
@@ -23,6 +25,8 @@ namespace Projekt
                 .AddRoles<IdentityRole<int>>()
                 .AddRoleManager<RoleManager<IdentityRole<int>>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>);
 
             var app = builder.Build();
 
