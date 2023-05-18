@@ -1,2 +1,1 @@
-"# ProjektNaZajeciaDotNet" 
-"# ProjektNaZajeciaDotNet" 
+# ProjektNaZajeciaDotNet
