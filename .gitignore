@@ -2,3 +2,5 @@
 /obj
 .vs
 .editorconfig
+appsettings.json
+appsettings.Development.json
