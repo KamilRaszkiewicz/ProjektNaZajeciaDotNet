@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,19 +15,21 @@ namespace Projekt
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
             // Add services to the container.
             builder.Services.AddRazorPages();
 
             builder.Services.AddDbContext<ApplicationDbContext>(opts => 
                 opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
                 ));
-
+  
             builder.Services.AddIdentity<User, IdentityRole<int>>()
                 .AddRoles<IdentityRole<int>>()
                 .AddRoleManager<RoleManager<IdentityRole<int>>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>);
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddSingleton<IImageService, ImageService>();
 
             var app = builder.Build();
 
@@ -34,12 +37,11 @@ namespace Projekt
             {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
-
-
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseDeveloperExceptionPage();
 
             app.UseRouting();
 
