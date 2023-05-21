@@ -1,0 +1,39 @@
+version: '3.4'
+
+networks:
+  platformablogowa:
+
+
+services:
+  projektdb:
+    container_name: platforma-blogowa-db
+    image: mcr.microsoft.com/mssql/server:2022-latest 
+    ports:
+        - 8002:1433
+    environment:
+        - ACCEPT_EULA=Y
+        - MSSQL_SA_PASSWORD=Projekt@12345
+    networks:
+        - platformablogowa
+  projekt:
+    container_name: platforma-blogowa
+    image: ${DOCKER_REGISTRY-}projekt
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+        - 8001:80
+    depends_on:
+        - projektdb
+    environment:
+        - DB_HOST=projektdb
+        - DB_NAME=PlatformaBlogowa
+        - DB_SA_PASSWORD=Projekt@12345
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=https://+:443;http://+:80
+        - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+        - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+        - ~/.aspnet/https:/https:ro
+    networks:
+        - platformablogowa

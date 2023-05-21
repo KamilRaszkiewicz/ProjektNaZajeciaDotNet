@@ -19,9 +19,16 @@ namespace Projekt
             // Add services to the container.
             builder.Services.AddRazorPages();
 
-            builder.Services.AddDbContext<ApplicationDbContext>(opts => 
-                opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
-                ));
+            // Database connection
+            var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+            var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
+            var connectionString = $"Data Source={dbHost};Initial Catalog={dbName};USER ID=sa;Password={dbPassword}";
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
   
             builder.Services.AddIdentity<User, IdentityRole<int>>()
                 .AddRoles<IdentityRole<int>>()
