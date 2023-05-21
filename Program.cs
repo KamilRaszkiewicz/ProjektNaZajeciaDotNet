@@ -29,6 +29,7 @@ namespace Projekt
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddSingleton<IImageService, ImageService>();
 
             var app = builder.Build();
 

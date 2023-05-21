@@ -12,9 +12,18 @@
     <form method="post" enctype="multipart/form-data" >
         @if(!ModelState.IsValid)
         {
-            <span>Bad image</span>
+            <span asp-validation-for="FormImage" class="alert-danger"></span>
         }
-        <input class="form-control" type="file" asp-for="Image" />
+        else if(Model.FormImage != null)
+        {
+            <span class="alert-success">Trybson</span>
+        }
+        <input class="form-control" type="file" asp-for="FormImage" />
         <input class="btn btn-primary" type="submit"/>
     </form>
+
+    @if(ModelState.IsValid && Model.Image != null)
+    {
+        <image src="@Model.Image.ImagePath"></image>
+    }
 </div>
