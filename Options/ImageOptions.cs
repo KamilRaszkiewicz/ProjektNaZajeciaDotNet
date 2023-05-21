@@ -8,7 +8,7 @@
             {"image/png", "png" }
         };
 
-        public const string ImagesDirectory = "wwwroot/images";
+        public string ImagesDirectory { get; set; } = "images";
         public int MaxBytesSize { get; set; } = 8 * 1024 * 1024;
     }
 }
