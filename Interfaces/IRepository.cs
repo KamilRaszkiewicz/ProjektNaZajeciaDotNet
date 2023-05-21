@@ -1,4 +1,6 @@
-﻿namespace Projekt.Interfaces
+﻿using System.Linq.Expressions;
+
+namespace Projekt.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {
