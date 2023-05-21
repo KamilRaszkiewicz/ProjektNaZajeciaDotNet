@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Options;
+using Projekt.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace Projekt.Attributes
 {
@@ -8,30 +10,29 @@ namespace Projekt.Attributes
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     public class FormImageAttribute : ValidationAttribute
     {
-        private readonly static string[] _allowedContentTypes =
-        {
-            "image/jpeg",
-            "image/png"
-        };
+        public FormImageAttribute(){}
 
-        private readonly static int _maxBytesLength = 8 * 1024 * 1024;
-
-        public override bool IsValid(object? value)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if(value == null) return true;
+            if (value == null) return ValidationResult.Success;
 
             var formImage = value as IFormFile;
 
             if (formImage == null)
             {
-                throw new InvalidOperationException("FormImageValidationAttribute can be used only on properties of type IFormFile");
+                throw new InvalidOperationException("FormImageAttribute can be used only on properties of type IFormFile");
             }
 
-            if (!_allowedContentTypes.Contains(formImage.ContentType)) return false;
+            var options = validationContext.GetRequiredService<IOptions<ImageOptions>>().Value;
 
-            if (formImage.Length > _maxBytesLength) return false;
+            var validContentTypes = options.AllowedContentTypesWithExtensions.Keys;
+            var maxBytesSize = options.MaxBytesSize;
 
-            return true;
+            if (!validContentTypes.Contains(formImage.ContentType)) return new ValidationResult("Invalid file format");
+
+            if (formImage.Length > maxBytesSize) return new ValidationResult("File too big");
+
+            return ValidationResult.Success;
         }
     }
 }
