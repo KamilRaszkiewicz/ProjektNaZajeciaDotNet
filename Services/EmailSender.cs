@@ -13,7 +13,7 @@ namespace Projekt.Services
         public EmailSender(IOptions<SmtpOptions> opts)
         {
             _senderEmail = opts.Value.SenderEmail;
-            _smtpClient = new SmtpClient("127.0.0.1", 25);
+            _smtpClient = new SmtpClient(opts.Value.Host, opts.Value.Port);
         }
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
