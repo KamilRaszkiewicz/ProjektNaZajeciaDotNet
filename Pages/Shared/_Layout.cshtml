@@ -3,26 +3,23 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Projekt</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewData["Title"] - Blog</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Projekt.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="menu">
-                    <ul class="">
-
-                        <li class="nav-item">
-                            <a asp-page="/Index">Index</a>
-                        <li class="nav-item">
+        <nav>
+                    <ul>
+                        <li>
+                             <a asp-page="/Index">Index</a>
+                        <li>
                             <a asp-page="/Privacy">Privacy</a>
-                        <li class="nav-item">
-                            <a  asp-page="/UserPostings">Postings</a>
-                        <li class="nav-item">
-                            <a  asp-page="/#">Sign in</a>
-                        <li class="nav-item">
-                            <a  asp-page="/#">Sign up</a>
+                        <li>
+                            <a asp-page="/UserPostings">Postings</a>
+                        <li class="log">
+                            <a asp-page="/#">Sign in</a>
+                        <li class="log">
+                            <a asp-page="/#">Sign up</a>
                         </li>
                     </ul>
         </nav>
@@ -33,14 +30,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+  
 
-    </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

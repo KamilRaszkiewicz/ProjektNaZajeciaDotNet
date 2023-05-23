@@ -1,22 +1,43 @@
-html {
-  font-size: 14px;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+body{
+    margin:0;
+    padding:0;
+}
+ul {
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+nav {
+    display: flex; 
+    justify-content: center; 
+    background-color: #18191A;
+    border-bottom: 1px solid #ddd;
+    overflow: hidden;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    nav li {
+        float: left;
+    }
+
+
+    nav a {
+        font-family: 'Open Sans', sans-serif;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+
+    nav a:hover {
+          background-color: #0047ab;
+        }
+.log a:hover {
+    background-color: #009000;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
