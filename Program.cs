@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Projekt.Interfaces;
 using Projekt.Models;
 using Projekt.Models.Entities;
+using Projekt.Options;
 using Projekt.Services;
+using System.Net.Mail;
 
 namespace Projekt
 {
@@ -21,7 +24,9 @@ namespace Projekt
 
             builder.Services.AddDbContext<ApplicationDbContext>(opts => 
                 opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
-                ));
+                )); 
+
+            builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole<int>>()
