@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@1,900&display=swap');
 body {
     background-color: #3A3B3C;
     margin:0;
@@ -17,6 +18,7 @@ nav {
     background-color: #18191A;
     border-bottom: 1px solid #ddd;
     overflow: hidden;
+    border-bottom:1px solid black;
 }
 
     nav li {
@@ -55,3 +57,11 @@ menu {
     text-align: center;
 }
 
+.tag {
+    background-color: #36454F;
+    color: white;
+    float: left;
+    padding: 5px;
+    border-radius: 20px;
+    font-family: 'Source Code Pro', monospace;
+}
