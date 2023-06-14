@@ -73,14 +73,12 @@ menu {
 }
 .slider .photo {
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    width:100%;
-    height:100%;
+
 }
 
-.photo img{
-    
+.photo img {
+    width: 100%;
+    height: 100%;
 }
 
 .tag {
@@ -118,3 +116,27 @@ menu {
 
 
 
+.click-img {
+    
+    padding: 5px;
+    margin: 0;
+    width: 5vw;
+    align-items:center;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #FFFFFF;
+    
+    border: 3px solid black;
+    transition: background-color 0.3s ease;
+}
+
+.click-img:hover{
+    background-color:black;
+    color:white;
+}
+
+.buttons{
+    margin-top:3vh;
+    
+    display:flex;
+    justify-content:center;
+}

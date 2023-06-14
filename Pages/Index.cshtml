@@ -9,11 +9,27 @@
 <div class="text-center">
     <div class="title">Stwórz swój własny post!</div>
     <form method="post" enctype="multipart/form-data" >
+        <div class="buttons">
+        <div class="click-img">
+             <input  type="file" asp-for="FormImage" id="img" style="display:none"  />       
+             <label for="img">Upload</label>
+        </div>
+        <div class="click-img">
+            <input type="submit" id="submit" style="display:none" />
+            <label for="submit" >Send</label>
+         </div>
+        </div><br />
 
-
-        <input  type="file" asp-for="FormImage"  /> 
-        <input  type="submit" /><br />
-        <input type="text" placeholder="Tytuł postu" <!-- asp-for=""--></input>
+        <input type="text" placeholder="Tytuł postu" /> <!-- asp-for=""--><br />
+ 
+        <input type="text" placeholder="Wstaw swój opis!" /> <!-- asp-for=""-->
+        <div class="buttons">
+        <div class="click-img">
+            <input type="submit" id="tag" style="display:none" />
+            <label for="tag">Add Tag</label>
+            </div>
+        </div>
+        <input type="text" placeholder="#" /> <!-- asp-for=""--><br />
     </form>
 
     @if(ModelState.IsValid && Model.Image != null)
