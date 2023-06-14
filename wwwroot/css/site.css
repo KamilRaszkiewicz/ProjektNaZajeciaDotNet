@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap');
 body {
-    background-color: #3A3B3C;
+    background-color: #2C2C2C;
     margin:0;
     padding: 0;
+    align-items:center;
 }
 ul {
 
@@ -43,18 +46,41 @@ nav {
 .log a:hover {
     background-color: #009000;
 }
-
-menu {
-    padding: 0;
+.container {
     box-shadow: 30px 0px 40px rgba(0,0,0,0.1), -30px 0px 40px rgba(0,0,0,0.1);
-    height: 50vh;
+    min-height: 50vh;
     width: 40vw;
-    margin: auto;
-    margin-top:10vh;
-    background-color: #BDBDBD;
-    border-radius: 10px;
     align-items: center;
     text-align: center;
+    margin: auto;
+    margin-top: 10vh;
+    background-color: #3A3B3C;
+    border-radius: 10px;
+   
+}
+menu {
+    padding: 0;
+    height: 100vh;
+}
+
+.title {
+    color:white;
+    font-family: 'Abril Fatface', cursive;
+}
+.slider{
+    width:100%;
+    height:100%;
+}
+.slider .photo {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    width:100%;
+    height:100%;
+}
+
+.photo img{
+    
 }
 
 .tag {
@@ -65,3 +91,30 @@ menu {
     border-radius: 20px;
     font-family: 'Source Code Pro', monospace;
 }
+.comments {
+    padding: 5px;
+    margin: 5px;
+    margin-top: 15px;
+    border-radius: 20px;
+    align-items: flex-start;
+    text-align: left;
+    font-family: 'Slabo 27px', serif;
+    background-color: #1A2228;
+    color: white;
+}
+
+
+.post{
+    margin-top:4px;
+    padding:3px;
+    border:3px solid grey;
+    border-radius:20px;
+}
+
+
+.info {
+    font-size: 10px;
+}
+
+
+

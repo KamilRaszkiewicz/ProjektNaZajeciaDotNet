@@ -7,23 +7,21 @@
 
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="title">Stwórz swój własny post!</div>
     <form method="post" enctype="multipart/form-data" >
-        @if(!ModelState.IsValid)
-        {
-            <span asp-validation-for="FormImage" class="alert-danger"></span>
-        }
-        else if(Model.FormImage != null)
-        {
-            <span class="alert-success">Trybson</span>
-        }
-        <input class="form-control" type="file" asp-for="FormImage" />
-        <input class="btn btn-primary" type="submit"/>
+
+
+        <input  type="file" asp-for="FormImage"  /> 
+        <input  type="submit" /><br />
+        <input type="text" placeholder="Tytuł postu" <!-- asp-for=""--></input>
     </form>
 
     @if(ModelState.IsValid && Model.Image != null)
     {
-        <image src="@Model.Image.ImagePath"></image>
+        <div class="slider">
+            <div class="photo">
+                <image src="@Model.Image.ImagePath"></image>
+            </div>
+        </div>
     }
 </div>
