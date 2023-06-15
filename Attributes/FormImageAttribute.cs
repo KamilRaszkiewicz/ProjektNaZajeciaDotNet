@@ -16,9 +16,9 @@ namespace Projekt.Attributes
         {
             if (value == null) return ValidationResult.Success;
 
-            var formImage = value as IFormFile;
+            var formImages = value as IFormFile[];
 
-            if (formImage == null)
+            if (formImages == null)
             {
                 throw new InvalidOperationException("FormImageAttribute can be used only on properties of type IFormFile");
             }
@@ -28,9 +28,12 @@ namespace Projekt.Attributes
             var validContentTypes = options.AllowedContentTypesWithExtensions.Keys;
             var maxBytesSize = options.MaxBytesSize;
 
-            if (!validContentTypes.Contains(formImage.ContentType)) return new ValidationResult("Invalid file format");
+            foreach(var img in formImages)
+            {
+                if (!validContentTypes.Contains(img.ContentType)) return new ValidationResult("Invalid file format");
 
-            if (formImage.Length > maxBytesSize) return new ValidationResult("File too big");
+                if (img.Length > maxBytesSize) return new ValidationResult("File too big");
+            }
 
             return ValidationResult.Success;
         }

@@ -19,6 +19,7 @@ namespace Projekt.Services
             _smtpClient = new SmtpClient(opts.Value.Host, opts.Value.Port);
             _logger = logger;
         }
+
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             try

@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -9,9 +9,17 @@
 <div class="text-center">
     <div class="title">Stwórz swój własny post!</div>
     <form method="post" enctype="multipart/form-data" >
+        @if(!ModelState.IsValid)
+        {
+            <span asp-validation-for="FormImages" class="alert-danger"></span>
+        }
+        else if(Model.FormImages != null && Model.FormImages.Any())
+        {
+            <span class="alert-success">Trybson</span>
+        }
         <div class="buttons">
         <div class="click-img">
-             <input  type="file" asp-for="FormImage" id="img" style="display:none"  />       
+             <input  type="file" asp-for="FormImage" id="img" style="display:none"  multiple/>       
              <label for="img">Upload</label>
         </div>
         <div class="click-img">
@@ -32,11 +40,14 @@
         <input type="text" placeholder="#" /> <!-- asp-for=""--><br />
     </form>
 
-    @if(ModelState.IsValid && Model.Image != null)
+    @if(ModelState.IsValid && Model.Images != null)
     {
         <div class="slider">
             <div class="photo">
-                <image src="@Model.Image.ImagePath"></image>
+              foreach (var img in Model.Images)
+              {
+                  <image src="@img.ImagePath"></image>
+              }
             </div>
         </div>
     }

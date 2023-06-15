@@ -10,16 +10,16 @@ namespace Projekt.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly IImageService _imageService;
+        private readonly IImagesService _imageService;
 
         [Required]
         [FormImage]
         [BindProperty]
-        public IFormFile FormImage  { get; set; }
+        public IFormFile[] FormImages  { get; set; }
 
-        public Image Image { get; set; }
+        public IEnumerable<Image> Images { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger, IImageService imageService)
+        public IndexModel(ILogger<IndexModel> logger, IImagesService imageService)
         {
             _logger = logger;
             _imageService = imageService;
@@ -36,7 +36,7 @@ namespace Projekt.Pages
                 return Page();
             }
 
-            Image = _imageService.SaveImage(FormImage);
+            Images = _imageService.SaveImages(FormImages);
 
             return Page();
         }
