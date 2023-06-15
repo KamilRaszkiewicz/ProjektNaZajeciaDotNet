@@ -12,18 +12,21 @@
     <form method="post" enctype="multipart/form-data" >
         @if(!ModelState.IsValid)
         {
-            <span asp-validation-for="FormImage" class="alert-danger"></span>
+            <span asp-validation-for="FormImages" class="alert-danger"></span>
         }
-        else if(Model.FormImage != null)
+        else if(Model.FormImages != null && Model.FormImages.Any())
         {
             <span class="alert-success">Trybson</span>
         }
-        <input class="form-control" type="file" asp-for="FormImage" />
+        <input class="form-control" type="file" asp-for="FormImages" multiple/>
         <input class="btn btn-primary" type="submit"/>
     </form>
 
-    @if(ModelState.IsValid && Model.Image != null)
+    @if(ModelState.IsValid && Model.Images != null)
     {
-        <image src="@Model.Image.ImagePath"></image>
+        foreach (var img in Model.Images)
+        {
+            <image src="@img.ImagePath"></image>
+        }
     }
 </div>

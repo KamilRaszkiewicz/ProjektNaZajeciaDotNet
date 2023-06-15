@@ -35,7 +35,7 @@ namespace Projekt
   
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            builder.Services.AddSingleton<IImageService, ImageService>();
+            builder.Services.AddSingleton<IImagesService, ImagesService>();
 
             var app = builder.Build();
 
