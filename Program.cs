@@ -33,7 +33,7 @@ namespace Projekt
                 .AddRoleManager<RoleManager<IdentityRole<int>>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
   
-
+            builder.Services.AddScoped<IPostsService, PostsService>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddSingleton<IImagesService, ImagesService>();
 
