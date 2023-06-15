@@ -16,12 +16,10 @@ namespace Projekt.Services
 
         public PostsService(
             IImagesService imagesService,
-            IRepository<User> usersRepository, 
             IRepository<Post> postsRepository, 
             IRepository<Tag> tagsRepository)
         {
             _imagesService = imagesService;
-            _usersRepository = usersRepository;
             _postsRepository = postsRepository;
             _tagsRepository = tagsRepository;
         }
