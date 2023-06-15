@@ -19,7 +19,7 @@
         }
         <div class="buttons">
         <div class="click-img">
-             <input  type="file" asp-for="FormImage" id="img" style="display:none"  multiple/>       
+             <input  type="file" asp-for="FormImages" id="img" style="display:none"  multiple/>       
              <label for="img">Upload</label>
         </div>
         <div class="click-img">
@@ -44,7 +44,7 @@
     {
         <div class="slider">
             <div class="photo">
-              foreach (var img in Model.Images)
+              @foreach (var img in Model.Images)
               {
                   <image src="@img.ImagePath"></image>
               }
