@@ -8,9 +8,9 @@ namespace Projekt.Attributes
     /// Attribute used to validate form images binded to IFormFile properties
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-    public class FormImageAttribute : ValidationAttribute
+    public class FormImagesAttribute : ValidationAttribute
     {
-        public FormImageAttribute(){}
+        public FormImagesAttribute(){}
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
