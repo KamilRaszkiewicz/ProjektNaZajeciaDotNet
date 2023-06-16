@@ -27,6 +27,22 @@ namespace Projekt.Services
             _commentsRepository = commentsRepository;
         }
 
+        public int CreateComment(CreateCommentDto dto, int userId, string IP)
+        {
+            var entity = new Comment
+            {
+                AuthorId = userId,
+                Content = dto.Content,
+                IP = IP,
+                CreatedAt = DateTime.Now,
+            };
+
+            _commentsRepository.Add(entity);
+            _commentsRepository.SaveChanges();
+
+            return entity.Id;
+        }
+
         public int CreatePost(CreatePostDto dto, int userId)
         {
             var normalizedTagNames = dto.TagsString.Trim().Split(" ").Select(s => s.ToLower());
@@ -42,6 +58,7 @@ namespace Projekt.Services
                 Title = dto.Title,
                 Description = dto.Description,
                 Tags = relatedTags,
+                CreatedAt = DateTime.Now,
                 Images = _imagesService.SaveImages(dto.FormFiles).ToList(),
             };
 
