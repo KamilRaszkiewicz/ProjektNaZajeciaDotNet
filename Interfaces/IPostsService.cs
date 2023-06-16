@@ -11,6 +11,10 @@ namespace Projekt.Interfaces
 
         IEnumerable<PostDto> GetUserPosts(int userId, int pageNr = 1);
 
+        bool UpdatePost(int postId, CreatePostDto dto);
+
         bool DeletePost(int postId);
+
+        bool DeleteComment(int commentId);
     }
 }
