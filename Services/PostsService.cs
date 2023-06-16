@@ -13,15 +13,18 @@ namespace Projekt.Services
         private readonly IImagesService _imagesService;
         private readonly IRepository<Post> _postsRepository;
         private readonly IRepository<Tag> _tagsRepository;
+        private readonly IRepository<Comment> _commentsRepository;
 
         public PostsService(
             IImagesService imagesService,
             IRepository<Post> postsRepository, 
-            IRepository<Tag> tagsRepository)
+            IRepository<Tag> tagsRepository,
+            IRepository<Comment> commentsRepository)
         {
             _imagesService = imagesService;
             _postsRepository = postsRepository;
             _tagsRepository = tagsRepository;
+            _commentsRepository = commentsRepository;
         }
 
         public int CreatePost(CreatePostDto dto, int userId)
@@ -48,6 +51,17 @@ namespace Projekt.Services
             return entity.Id;
         }
 
+        public bool DeleteComment(int commentId)
+        {
+            var entity = _commentsRepository.Get(x => x.Id == commentId).FirstOrDefault();
+            
+            if(entity == null) return false;
+
+            _commentsRepository.Remove(entity);
+
+            return _commentsRepository.SaveChanges() > 0;
+        }
+
         public bool DeletePost(int postId)
         {
             var postAndTagsToBeDeleted = _postsRepository
@@ -56,7 +70,9 @@ namespace Projekt.Services
                 {
                     Post = x,
                     TagsToBeDeleted = x.Tags.Where(t => t.Posts.Count == 1).ToList()
-                }).First();
+                }).FirstOrDefault();
+
+            if (postAndTagsToBeDeleted == null) return false;
 
             _postsRepository.Remove(postAndTagsToBeDeleted.Post);
             foreach(var tag in postAndTagsToBeDeleted.TagsToBeDeleted)
@@ -138,6 +154,31 @@ namespace Projekt.Services
                         IP = y.IP,
                     })
                 });
+        }
+
+        public bool UpdatePost(int postId, CreatePostDto dto)
+        {
+            var post = _postsRepository.Get(x => x.Id == postId, include => include.Tags)
+                .FirstOrDefault();
+
+            if (post == null) return false;
+
+            var normalizedTagNames = dto.TagsString.Trim().Split(" ").Select(s => s.ToLower());
+
+            var relatedTags = _tagsRepository.Get(t => normalizedTagNames.Contains(t.Name)).ToList();
+            var nonExistingTagNames = normalizedTagNames.Except(relatedTags.Select(x => x.Name)).ToList();
+
+            relatedTags.AddRange(nonExistingTagNames.Select(x => new Tag { Name = x }));
+
+            post.Title = dto.Title;
+            post.Description = dto.Description;
+            post.Tags = relatedTags;
+
+            //TOOD: somehow update images
+
+            _postsRepository.Update(post);
+
+            return _postsRepository.SaveChanges() > 1;
         }
     }
 }
