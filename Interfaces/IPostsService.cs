@@ -12,7 +12,7 @@ namespace Projekt.Interfaces
 
         IEnumerable<PostDto> GetUserPosts(int userId, int pageNr = 1);
 
-        int CreateComment(CreateCommentDto dto, int? userId, string IP);
+        int CreateComment(CreateCommentDto dto, int userId, string IP);
 
         bool UpdatePost(int postId, CreatePostDto dto);
 

@@ -11,18 +11,18 @@ namespace Projekt.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IImagesService _imageService;
+        private readonly IPostsService _postsService;
 
-        [Required]
-        [FormImage]
         [BindProperty]
         public IFormFile[] FormImages  { get; set; }
 
         public IEnumerable<Image> Images { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger, IImagesService imageService)
+        public IndexModel(ILogger<IndexModel> logger, IImagesService imageService, IPostsService postsService)
         {
             _logger = logger;
             _imageService = imageService;
+            _postsService = postsService;
         }
 
         public void OnGet()
