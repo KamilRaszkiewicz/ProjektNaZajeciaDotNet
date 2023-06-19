@@ -1,49 +1,44 @@
-﻿@page
+﻿@page "/{userName}/{pageIndex:int?}"
 @model Projekt.Pages.UserPostingsModel
 @{
     ViewData["Title"] = "Postings";
    
 }
 <menu>
-    <div class="container">
-     <div class="title">Tytuł</div>
-        <div class="slider">
-            <div class="photo">
-                <div class="png"><img src="~/css/Diagram stanów.png" /></div>
-                <div class="png"><img src="~/css/Diagram stanów.png" /></div>
-                <div class="png"><img src="~/css/Diagram stanów.png" /></div>
-                <div class="png"><img src="~/css/Diagram stanów.png" /></div>
-                <div class="png"><img src="~/css/Diagram stanów.png" /></div>
+    <div class="posts">
+        @foreach(var post in Model.Posts)
+        {
+        <div class="post">
+            <div class="container">
+             <div class="title">Tytuł</div>
+                <div class="slider">
+                    <div class="photo">
+                        <div class="png"><img src="~/css/Diagram stanów.png" /></div>
+                        <div class="png"><img src="~/css/Diagram stanów.png" /></div>
+                        <div class="png"><img src="~/css/Diagram stanów.png" /></div>
+                        <div class="png"><img src="~/css/Diagram stanów.png" /></div>
+                        <div class="png"><img src="~/css/Diagram stanów.png" /></div>
+                    </div>
+                </div>
+               <div class="tag">#Tag1</div>
+               <div class="tag">#Tag2</div>
+               <br/>
+               <div class="comments">
+                   <div class="post">
+                       <div class="info">192.168.0.1 13-06-2023</div>
+                       <div class="content"> Nie podoba mi się ogółem to </div>
+                   </div>
+                    <div class="post">
+                        <div class="info">192.168.0.1 13-06-2023</div>
+                        <div class="content"> Nie podoba mi się ogółem to </div>
+                    </div>
+                    <div class="post">
+                        <div class="info">192.168.0.1 13-06-2023</div>
+                        <div class="content"> Nie podoba mi się ogółem to </div>
+                    </div>
+                </div>
             </div>
         </div>
-       <div class="tag">#Tag1</div>
-       <div class="tag">#Tag2</div>
-       <br/>
-       <div class="comments">
-           <div class="post">
-               <div class="info">192.168.0.1 13-06-2023</div>
-               <div class="content"> Nie podoba mi się ogółem to </div>
-           </div>
-            <div class="post">
-                <div class="info">192.168.0.1 13-06-2023</div>
-                <div class="content"> Nie podoba mi się ogółem to </div>
-            </div>
-            <div class="post">
-                <div class="info">192.168.0.1 13-06-2023</div>
-                <div class="content"> Nie podoba mi się ogółem to </div>
-            </div>
-        </div>
-
-
+        }
     </div>
-
-    <div class="container">
-
-        <a> Tytuł</a>
-        <div class="photos"></div>
-        <div class="tags"></div>
-        <div class="comment"></div>
-
-    </div>
-
 </menu>
