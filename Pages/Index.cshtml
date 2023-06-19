@@ -14,14 +14,6 @@
             {
                 <span class="alert-success">Nie udało się dodać posta</span>
             }
-            else
-            {
-                <span class="alert-success">Trybson</span>
-            }
-                @if (!ModelState.IsValid)
-                {
-                    <span asp-validation-for="CreatePostForm.FormFiles" class="text-danger"></span>
-                }
              <br />
 
             <input class="titleInput" type="text" placeholder="Tytuł postu" asp-for="CreatePostForm.Title" /> <!-- asp-for=""-->
@@ -29,14 +21,6 @@
 
                 <textarea class="descInput" type="text" placeholder="Wstaw swój opis!" asp-for="CreatePostForm.Description" ></textarea> <!-- asp-for=""-->
                 <span asp-validation-for="CreatePostForm.Description" class="text-danger"></span>
-            <!--
-            <div class="buttons">
-            <div class="click-img">
-                <input type="submit" id="tag" style="display:none" />
-                <label for="tag">Add Tag</label>
-                </div>
-            </div>
-            -->
             <input class="tagsInput"type="text" placeholder="Tag1 Tag2 ..." asp-for="CreatePostForm.TagsString"/><br />
 
              <div class="buttons">
@@ -57,7 +41,7 @@
         <div class="post">
             @if (post.CanDelete)
             {
-                <a asp-page="Index" asp-page-handler="DeletePost" asp-route-postId="@post.Id">>Usuń Post</a>
+                <a class="delete" asp-page="Index" asp-page-handler="DeletePost" asp-route-postId="@post.Id">>Usuń Post</a>
             }
             <div class="title">@post.Author</div>
             <div class="title">@post.Title</div>
@@ -77,23 +61,31 @@
             </div>
             <br />
             <div class="postDescription">@post.Description</div>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <!-- Tutaj potrzebny formularz dodawania komentarza -->
-            }
             <div class="comments">
                 @foreach (var comment in post.Comments)
                 {
-                    @if (comment.CanDelete)
-                    {
-                        <a asp-page="/" asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id">Usuń Komentarz</a>
-                    }
+
                     <div class="comment">
+                        @if (comment.CanDelete)
+                        {
+                            <a class="delete" asp-page="Index" asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id">Usuń Komentarz</a>
+                        }
                         <div class="info">@comment.Author, @comment.IP, @comment.CreatedAt.ToString("dd.MM.yyyy HH:MM")</div>
                         <div class="content">@comment.Content</div>
                     </div>
                 }
             </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form>
+                    <input type="hidden" value="@post.Id"/>
+                    <textarea class="commentInput" type="text" placeholder="Dodaj komentarz!" asp-for="CreatePostForm.Description"></textarea>
+                    <div class="click-img">
+                        <input type="submit" id="submit" style="display:none" />
+                        <label for="submit">Send</label>
+                    </div>
+                </form>
+            }
         </div>
     }
 </div>

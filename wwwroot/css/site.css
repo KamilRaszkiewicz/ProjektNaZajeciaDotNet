@@ -86,6 +86,14 @@ nav {
     padding: 3px 11px;
 }
 
+.commentInput {
+    margin-top: 20px;
+    width: 80%;
+    height: 4em;
+    padding: 3px 11px;
+    resize: none;
+}
+
 .tagsContainer{
     display:block;
     padding: 10px 20px;
@@ -190,4 +198,14 @@ menu {
     
     display:flex;
     justify-content:space-around;
+}
+
+.delete{
+    display:block;
+    width: 120px;
+    height: 1em;
+    padding: 0.5em 0.5em;
+
+    background-color: red;
+    color:white;
 }

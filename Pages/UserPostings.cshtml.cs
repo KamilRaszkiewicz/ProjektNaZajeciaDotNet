@@ -41,8 +41,10 @@ namespace Projekt.Pages
 
         public async Task OnGetDeleteUser(string userName)
         {
-            if (!User.IsInRole("admin")) return;
+            if (!User.IsInRole("admin") || userName == User.Identity.Name) return;
+
             var user = await _userManager.FindByNameAsync(userName);
+
             if (user == null) return;
 
             await _adminService.DeleteUserAsync(user.Id);

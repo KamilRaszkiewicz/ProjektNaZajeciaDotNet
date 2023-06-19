@@ -64,8 +64,30 @@ namespace Projekt.Pages
             var isAdmin = User.IsInRole("admin");
 
             _postsService.DeletePost(currentUserId, isAdmin, postId);
+            var referer = Request.Headers["Referer"].ToString();
 
-            Response.Redirect(Request.Headers["Referer"].ToString());
+            if(referer.EndsWith("?handler=DeleteUser"))
+            {
+                Response.Redirect("/");
+            }
+
+            Response.Redirect(referer);
+        }
+
+        public void OnGetDeleteComment(int commentId)
+        {
+            int? currentUserId = int.TryParse(_userManager.GetUserId(User), out var temp) ? temp : null;
+            var isAdmin = User.IsInRole("admin");
+
+            _postsService.DeleteComment(currentUserId, isAdmin, commentId);
+            var referer = Request.Headers["Referer"].ToString();
+
+            if (referer.EndsWith("?handler=DeleteUser"))
+            {
+                Response.Redirect("/");
+            }
+
+            Response.Redirect(referer);
         }
 
     }

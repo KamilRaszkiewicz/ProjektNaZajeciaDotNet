@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.DotNet.Scaffolding.Shared;
+using Microsoft.Extensions.Options;
 using Projekt.Interfaces;
 using Projekt.Models.Entities;
 
@@ -17,6 +18,9 @@ namespace Projekt.Extensions
 
             var userManager = provider.GetRequiredService<UserManager<User>>();
             var roleManager = provider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+
+            var imagesService = provider.GetRequiredService<IImagesService>();
+            var imagesPath = provider.GetRequiredService<IWebHostEnvironment>().WebRootPath + "/images/seed";
 
             await roleManager.CreateAsync(new IdentityRole<int>("admin"));
 
@@ -38,21 +42,56 @@ namespace Projekt.Extensions
                 Email = "vateusz@ojciecmateusz.pl"
             };
 
-        Task.WaitAll(
-            userManager.CreateAsync(admin, "Haslo1234!"),
-            userManager.CreateAsync(user1, "Haslo1234!"),
-            userManager.CreateAsync(user2, "Haslo1234!"));
+          Task.WaitAll(
+              userManager.CreateAsync(admin, "Haslo1234!"),
+              userManager.CreateAsync(user1, "Haslo1234!"),
+              userManager.CreateAsync(user2, "Haslo1234!"));
 
-        await userManager.AddToRoleAsync(admin, "admin");
+            await userManager.AddToRoleAsync(admin, "admin");
+            FormFile img1, img2, img3;
+
+            using(var fs = new FileStream(imagesPath + "/AkumulatorNaKablu.jpg", FileMode.Open))
+            {
+                var memoryStream = new MemoryStream();
+                fs.CopyTo(memoryStream);
+
+                img1 = new FormFile(memoryStream, 0, memoryStream.Length, null, "AkumulatorNaKablu.jpg")
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "image/jpeg"
+                };
+            }
+            using (var fs = new FileStream(imagesPath + "/SkupZywca.jpg", FileMode.Open))
+            {
+                var memoryStream = new MemoryStream();
+                fs.CopyTo(memoryStream);
+
+                img2 = new FormFile(memoryStream, 0, memoryStream.Length, null, "SkupZywca.jpg")
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "image/jpeg"
+                };
+            }
+            using (var fs = new FileStream(imagesPath + "/SkupZywcaGra.jpg", FileMode.Open))
+            {
+                var memoryStream = new MemoryStream();
+                fs.CopyTo(memoryStream);
+
+                img3 = new FormFile(memoryStream, 0, memoryStream.Length, null, "SkupZywcaGra.jpg")
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "image/jpeg"
+                };
+            }
 
             admin.Posts = new List<Post>
             {
                 new Post
                 {
-                    Title = "Skup żywca!!!",
-                    Description = "fax: 8103574183927514268730",
-                    CreatedAt = DateTime.Now,
-
+                   Title = "Skup żywca!!!",
+                   Description = "fax: 8103574183927514268730",
+                   CreatedAt = DateTime.Now,
+                   Images = imagesService.SaveImages(new[]{ img2, img3 }).ToList(),
                    Tags = new List<Tag>
                    {
                        new Tag
@@ -80,13 +119,7 @@ namespace Projekt.Extensions
                     Title = "Próbuję wytłumaczyć kolegom z Mołdawii...",
                     Description = "... ja mam tutaj akumulator na kablu i nie wiem czy w nich wjeżdżać teraz, czy za chwilę",
                     CreatedAt = DateTime.Now,
-                    Images = new List<Image>
-                    {
-                        new Image
-                        {
-                            ImagePath = "images/HaARjmogQcMQtuOsauj-2Mt_TtL_yIFquPO-AwJshko.jpg"
-                        }
-                    },
+                    Images = imagesService.SaveImages(new[]{ img1 }).ToList(),
                     Comments = new List<Comment>
                     {
                         new Comment
@@ -123,7 +156,5 @@ namespace Projekt.Extensions
 
             usersRepository.SaveChanges();
         }
-
-
     }
 }

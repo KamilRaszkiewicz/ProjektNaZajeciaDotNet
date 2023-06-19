@@ -70,11 +70,11 @@ namespace Projekt.Services
 
         public bool DeleteComment(int? currentUserId, bool isAdmin, int commentId)
         {
-            var entity = _commentsRepository.Get(x => x.Id == commentId).FirstOrDefault();
+            var entity = _commentsRepository.Get(x => x.Id == commentId, include => include.Post).FirstOrDefault();
             
             if(entity == null) return false;
 
-            if (entity.AuthorId != currentUserId && !isAdmin) return false;
+            if (!isAdmin && entity.AuthorId != currentUserId && entity.Post.AuthorId != currentUserId) return false;
 
             _commentsRepository.Remove(entity);
 
@@ -84,7 +84,7 @@ namespace Projekt.Services
         public bool DeletePost(int? currentUserId, bool isAdmin, int postId)
         {
             var postAndTagsToBeDeleted = _postsRepository
-                .Get(x => x.Id == postId, include => include.Tags)
+                .Get(x => x.Id == postId, include => include.Tags, include => include.Images)
                 .Select(x => new
                 {
                     Post = x,
@@ -93,8 +93,14 @@ namespace Projekt.Services
 
             if (postAndTagsToBeDeleted == null) return false;
             if (postAndTagsToBeDeleted.Post.AuthorId != currentUserId && !isAdmin) return false;
+            
+            foreach(var f in postAndTagsToBeDeleted.Post.Images)
+            {
+                _imagesService.RemoveFileFromDisk(f.ImagePath);
+            }
 
             _postsRepository.Remove(postAndTagsToBeDeleted.Post);
+
             foreach(var tag in postAndTagsToBeDeleted.TagsToBeDeleted)
             {
                 _tagsRepository.Remove(tag);
@@ -137,10 +143,12 @@ namespace Projekt.Services
                         Content = y.Content,
                         CreatedAt = y.CreatedAt,
                         IP = y.IP,
+
+                        CanDelete = IsAdmin || currentUserId == x.AuthorId|| y.AuthorId == currentUserId
                     }),
 
                     CanDelete = IsAdmin || (x.AuthorId == currentUserId)
-                });
+                });;
         }
 
         public IEnumerable<PostDto> GetUserPosts(int? currentUserId, bool IsAdmin, int userId, int pageNr = 1)
@@ -177,6 +185,8 @@ namespace Projekt.Services
                         Content = y.Content,
                         CreatedAt = y.CreatedAt,
                         IP = y.IP,
+
+                        CanDelete = IsAdmin || currentUserId == x.AuthorId || y.AuthorId == currentUserId
                     }),
 
                     CanDelete = IsAdmin || (x.AuthorId == currentUserId)

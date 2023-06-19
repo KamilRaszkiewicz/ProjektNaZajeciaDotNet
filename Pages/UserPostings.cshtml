@@ -5,7 +5,7 @@
    
 }
 <menu>
-    @if(User.IsInRole("admin"))
+    @if(User.IsInRole("admin") && Model.UserName != User.Identity.Name)
     {
         <a asp-page="UserPostings" asp-page-handler="DeleteUser" asp-route-userId="@Model.UserName">Usuń użytkownika @Model.UserName</a>
     }
