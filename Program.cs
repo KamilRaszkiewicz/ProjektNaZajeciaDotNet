@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Projekt.Extensions;
 using Projekt.Interfaces;
 using Projekt.Models;
 using Projekt.Models.Entities;
@@ -36,6 +37,7 @@ namespace Projekt
             builder.Services.AddScoped<IPostsService, PostsService>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddSingleton<IImagesService, ImagesService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
 
             var app = builder.Build();
 
@@ -55,6 +57,7 @@ namespace Projekt
 
             app.MapRazorPages();
 
+            Task.Run(async () => await app.Services.CreateScope().SeedDatabase()).Wait();
             app.Run();
         }
     }

@@ -59,7 +59,7 @@ namespace Projekt.Services
                 Description = dto.Description,
                 Tags = relatedTags,
                 CreatedAt = DateTime.Now,
-                Images = _imagesService.SaveImages(dto.FormFiles).ToList(),
+                Images = dto.FormFiles != null ? _imagesService.SaveImages(dto.FormFiles).ToList() : new List<Image>()  
             };
 
             _postsRepository.Add(entity);
@@ -68,18 +68,20 @@ namespace Projekt.Services
             return entity.Id;
         }
 
-        public bool DeleteComment(int commentId)
+        public bool DeleteComment(int? currentUserId, bool isAdmin, int commentId)
         {
             var entity = _commentsRepository.Get(x => x.Id == commentId).FirstOrDefault();
             
             if(entity == null) return false;
+
+            if (entity.AuthorId != currentUserId && !isAdmin) return false;
 
             _commentsRepository.Remove(entity);
 
             return _commentsRepository.SaveChanges() > 0;
         }
 
-        public bool DeletePost(int postId)
+        public bool DeletePost(int? currentUserId, bool isAdmin, int postId)
         {
             var postAndTagsToBeDeleted = _postsRepository
                 .Get(x => x.Id == postId, include => include.Tags)
@@ -90,6 +92,7 @@ namespace Projekt.Services
                 }).FirstOrDefault();
 
             if (postAndTagsToBeDeleted == null) return false;
+            if (postAndTagsToBeDeleted.Post.AuthorId != currentUserId && !isAdmin) return false;
 
             _postsRepository.Remove(postAndTagsToBeDeleted.Post);
             foreach(var tag in postAndTagsToBeDeleted.TagsToBeDeleted)
@@ -101,7 +104,7 @@ namespace Projekt.Services
             return _postsRepository.SaveChanges() > 0;
         }
 
-        public IEnumerable<PostDto> GetPosts(int pageNr = 1)
+        public IEnumerable<PostDto> GetPosts(int? currentUserId, bool IsAdmin, int pageNr = 1)
         {
             if(pageNr < 1) return Enumerable.Empty<PostDto>();
 
@@ -114,30 +117,33 @@ namespace Projekt.Services
                 .Select(x => new PostDto
                 {
                     Id = x.Id,
-                    
+                    Author = x.Author.UserName,
                     Title = x.Title,
                     Description = x.Description,
 
                     Tags = x.Tags.Select(y => y.Name),
 
-                    ImagePaths = x.Images.Select(y => new ImageDto 
+                    Images = x.Images.Select(y => new ImageDto 
                     {
                         Id = y.Id,
                         ImagePath = y.ImagePath,
+                        CanDelete = (x.AuthorId == currentUserId)
                     }),
 
                     Comments = x.Comments.Select(y => new CommentDto
                     {
                         Id = y.Id,
-                        Author = y.Author.Name,
+                        Author = y.Author.UserName,
                         Content = y.Content,
                         CreatedAt = y.CreatedAt,
                         IP = y.IP,
-                    })
+                    }),
+
+                    CanDelete = IsAdmin || (x.AuthorId == currentUserId)
                 });
         }
 
-        public IEnumerable<PostDto> GetUserPosts(int userId, int pageNr = 1)
+        public IEnumerable<PostDto> GetUserPosts(int? currentUserId, bool IsAdmin, int userId, int pageNr = 1)
         {
             if (pageNr < 1) return Enumerable.Empty<PostDto>();
 
@@ -150,26 +156,30 @@ namespace Projekt.Services
                 .Select(x => new PostDto
                 {
                     Id = x.Id,
+                    Author = x.Author.UserName,
 
                     Title = x.Title,
                     Description = x.Description,
 
                     Tags = x.Tags.Select(y => y.Name),
 
-                    ImagePaths = x.Images.Select(y => new ImageDto
+                    Images = x.Images.Select(y => new ImageDto
                     {
                         Id = y.Id,
                         ImagePath = y.ImagePath,
+                        CanDelete = (x.AuthorId == currentUserId)
                     }),
 
                     Comments = x.Comments.Select(y => new CommentDto
                     {
                         Id = y.Id,
-                        Author = y.Author.Name,
+                        Author = y.Author.UserName,
                         Content = y.Content,
                         CreatedAt = y.CreatedAt,
                         IP = y.IP,
-                    })
+                    }),
+
+                    CanDelete = IsAdmin || (x.AuthorId == currentUserId)
                 });
         }
 

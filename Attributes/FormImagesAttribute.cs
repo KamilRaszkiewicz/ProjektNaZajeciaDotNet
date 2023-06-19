@@ -22,6 +22,7 @@ namespace Projekt.Attributes
             {
                 throw new InvalidOperationException("FormImageAttribute can be used only on properties of type IFormFile");
             }
+            if(formImages.Length == 0) return ValidationResult.Success;
 
             var options = validationContext.GetRequiredService<IOptions<ImageOptions>>().Value;
 

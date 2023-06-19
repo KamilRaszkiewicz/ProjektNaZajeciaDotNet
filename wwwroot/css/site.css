@@ -46,9 +46,9 @@ nav {
 .log a:hover {
     background-color: #009000;
 }
-.container {
+.post {
     box-shadow: 30px 0px 40px rgba(0,0,0,0.1), -30px 0px 40px rgba(0,0,0,0.1);
-    min-height: 50vh;
+    /*min-height: 0vh;*/
     width: 40vw;
     align-items: center;
     text-align: center;
@@ -56,8 +56,49 @@ nav {
     margin-top: 10vh;
     background-color: #3A3B3C;
     border-radius: 10px;
+
+  
+    padding: 20px 20px;
    
 }
+
+.png{
+    margin-top: 20px;
+}
+
+.titleInput{
+    width: 80%;
+    margin-top: 20px;
+    padding: 3px 10px;
+}
+
+.descInput {
+    margin-top: 20px;
+    width: 80%;
+    height: 8em;
+    padding: 3px 11px;
+    resize: none;
+}
+
+.tagsInput {
+    margin-top: 20px;
+    width: 80%;
+    padding: 3px 11px;
+}
+
+.tagsContainer{
+    display:block;
+    padding: 10px 20px;
+    height: fit-content;
+}
+
+.postDescription{
+    text-align: left;
+    color: white;
+    padding: 10px 20px;
+    min-height: 5vh;
+}
+
 menu {
     padding: 0;
     height: 100vh;
@@ -97,34 +138,44 @@ menu {
     align-items: flex-start;
     text-align: left;
     font-family: 'Slabo 27px', serif;
-    background-color: #1A2228;
+    /*background-color: #1A2228;*/
     color: white;
 }
 
 
-.post{
-    margin-top:4px;
-    padding:3px;
-    border:3px solid grey;
-    border-radius:20px;
+.comment {
+    margin-top: 4px;
+    padding: 10px 10px;
+    border: 3px solid grey;
+    border-radius: 20px;
+    background-color: #1A2228;
 }
 
 
 .info {
-    font-size: 10px;
+    font-size: 16px;
 }
 
-
+.createPostForm {
+    box-shadow: 30px 0px 40px rgba(0,0,0,0.1), -30px 0px 40px rgba(0,0,0,0.1);
+    /*min-height: 0vh;*/
+    width: 40vw;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 10vh;
+    background-color: #3A3B3C;
+    border-radius: 10px;
+    padding-bottom: 20px;
+}
 
 .click-img {
-    
     padding: 5px;
     margin: 0;
-    width: 5vw;
-    align-items:center;
+    width: 10vw;
+    align-items: center;
     font-family: 'Open Sans', sans-serif;
     background-color: #FFFFFF;
-    
     border: 3px solid black;
     transition: background-color 0.3s ease;
 }
@@ -138,5 +189,5 @@ menu {
     margin-top:3vh;
     
     display:flex;
-    justify-content:center;
+    justify-content:space-around;
 }
