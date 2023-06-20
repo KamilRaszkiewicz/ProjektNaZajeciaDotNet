@@ -21,7 +21,30 @@ namespace Projekt
 
 
             // Add services to the container.
-            builder.Services.AddRazorPages();
+            builder.Services.AddRazorPages(opts =>
+            {
+                opts.Conventions.AddFolderRouteModelConvention("/Comments", opts =>
+                {
+                    foreach (var x in opts.Selectors)
+                    {
+                        x.AttributeRouteModel.Order = -1;
+                    }
+                });
+                opts.Conventions.AddPageRouteModelConvention("/Comments/Create", opts =>
+                {
+                    foreach (var x in opts.Selectors)
+                    {
+                        x.AttributeRouteModel.Order = -1;
+                    }
+                });
+                opts.Conventions.AddPageRouteModelConvention("/Comments/Delete", opts =>
+                {
+                    foreach (var x in opts.Selectors)
+                    {
+                        x.AttributeRouteModel.Order = -1;
+                    }
+                });
+            });
 
             builder.Services.AddDbContext<ApplicationDbContext>(opts => 
                 opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")

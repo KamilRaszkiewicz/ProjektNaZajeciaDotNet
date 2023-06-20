@@ -77,9 +77,9 @@
             </div>
             @if (User.Identity.IsAuthenticated)
             {
-                <form>
-                    <input type="hidden" value="@post.Id"/>
-                    <textarea class="commentInput" type="text" placeholder="Dodaj komentarz!" asp-for="CreatePostForm.Description"></textarea>
+                <form action="/Comments/Create" method="POST">
+                    <input type="hidden" value="@post.Id" name="Form.PostId"/>
+                    <textarea class="commentInput" type="text" placeholder="Dodaj komentarz!" name="Form.Content"></textarea>
                     <div class="click-img">
                         <input type="submit" id="submit" style="display:none" />
                         <label for="submit">Send</label>
