@@ -6,7 +6,7 @@
 
 Hi! This is an application that implements miniblogs functionality in the fashion of wykop mikroblog subsite. It let's users create blog posts that are visible on the main site and filtered on their own account. The closest thing to it as I said would be mikroblog on wykop.pl but without ads 😉.
 
-[Wykop.pl/mikroblog]: https://wykop.pl/mikroblog/	"Michał Białek's lifework"
+[Siedlisko zła w internecie na którym można powiedzieć, że się wzorowaliśmy xD](wykop.pl/mikroblog)
 
 ### Cloning
 
@@ -24,9 +24,7 @@ git git@github.com:KamilRaszkiewicz/ProjektNaZajeciaDotNet.git
 git clone git@github.com:KamilRaszkiewicz/ProjektNaZajeciaDotNet.git
 ```
 
-Make sure you have git installed on your system and if you intend to clone this app via SSH you might need to setup SSH key for your github account. Nice tutorial that shows how to do it: 
-
-[Setting up an ssh key]: https://www.youtube.com/watch?v=8X4u9sca3Io&amp;t=9s	"love this"
+Make sure you have git installed on your system and if you intend to clone this app via SSH you might need to setup SSH key for your github account. [Nice tutorial that shows how to do it ;)](https://www.youtube.com/watch?v=8X4u9sca3Io&amp;t=9s)
 
 ### Installation instructions
 
@@ -81,9 +79,7 @@ In order to get emails with:
 - password reset
 - account confirmation
 
-You need to run some kind of SMTP server. The one we used is:
-
-[Papercut]: https://github.com/ChangemakerStudios/Papercut-SMTP	"Papercut"
+You need to run some kind of SMTP server. The one we used is [Papercut](https://github.com/ChangemakerStudios/Papercut-SMTP).
 
 You can configure
 
