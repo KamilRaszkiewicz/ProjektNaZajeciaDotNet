@@ -15,12 +15,18 @@ namespace Projekt.Services
             _options = options.Value;
             _wwwRootPath = env.WebRootPath;
         }
+
+        public void RemoveFileFromDisk(string filePath)
+        {
+             File.Delete(_wwwRootPath + "/" + filePath);
+        }
+
         public IEnumerable<Image> SaveImages(IFormFile[] files)
         {
-            var name = GetRandomName();
-
             foreach(var file in files)
             {
+                var name = GetRandomName();
+
                 var extension = _options.AllowedContentTypesWithExtensions[file.ContentType];
                 var wwwRootName = _options.ImagesDirectory + "/" + name + "." + extension;
                 var fullName = _wwwRootPath + "/" + wwwRootName;

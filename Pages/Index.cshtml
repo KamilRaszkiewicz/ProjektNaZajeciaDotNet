@@ -1,52 +1,91 @@
-@page
+@page "/{pageIndex:int?}"
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
 <div class="text-center">
-    <div class="title">Stwórz swój własny post!</div>
-    <form method="post" enctype="multipart/form-data" >
-        @if(!ModelState.IsValid)
-        {
-            <span asp-validation-for="FormImages" class="alert-danger"></span>
-        }
-        else if(Model.FormImages != null && Model.FormImages.Any())
-        {
-            <span class="alert-success">Trybson</span>
-        }
-        <div class="buttons">
-        <div class="click-img">
-             <input  type="file" asp-for="FormImages" id="img" style="display:none"  multiple/>       
-             <label for="img">Upload</label>
-        </div>
-        <div class="click-img">
-            <input type="submit" id="submit" style="display:none" />
-            <label for="submit" >Send</label>
-         </div>
-        </div><br />
-
-        <input type="text" placeholder="Tytuł postu" /> <!-- asp-for=""--><br />
- 
-        <input type="text" placeholder="Wstaw swój opis!" /> <!-- asp-for=""-->
-        <div class="buttons">
-        <div class="click-img">
-            <input type="submit" id="tag" style="display:none" />
-            <label for="tag">Add Tag</label>
-            </div>
-        </div>
-        <input type="text" placeholder="#" /> <!-- asp-for=""--><br />
-    </form>
-
-    @if(ModelState.IsValid && Model.Images != null)
+    @if(User.Identity.IsAuthenticated)
     {
-        <div class="slider">
-            <div class="photo">
-              @foreach (var img in Model.Images)
-              {
-                  <image src="@img.ImagePath"></image>
-              }
+    <div class="createPostForm">
+        <div class="title">Stwórz swój własny post!</div>
+        <form method="post" enctype="multipart/form-data" >
+            @if(!ModelState.IsValid)
+            {
+                <span class="alert-success">Nie udało się dodać posta</span>
+            }
+             <br />
+
+            <input class="titleInput" type="text" placeholder="Tytuł postu" asp-for="CreatePostForm.Title" /> <!-- asp-for=""-->
+                <span asp-validation-for="CreatePostForm.Title" class="text-danger"></span><br />
+
+                <textarea class="descInput" type="text" placeholder="Wstaw swój opis!" asp-for="CreatePostForm.Description" ></textarea> <!-- asp-for=""-->
+                <span asp-validation-for="CreatePostForm.Description" class="text-danger"></span>
+            <input class="tagsInput"type="text" placeholder="Tag1 Tag2 ..." asp-for="CreatePostForm.TagsString"/><br />
+
+             <div class="buttons">
+                 <div class="click-img">
+                     <input class="filesInput" type="file" asp-for="CreatePostForm.FormFiles" id="img" style="display:none" multiple />
+                     <label for="img">Upload Images</label>
+                 </div>
+                 <div class="click-img">
+                     <input type="submit" id="submit" style="display:none" />
+                     <label for="submit">Send</label>
+                 </div>
+             </div>
+        </form>
+    </div>
+    }
+    @foreach (var post in Model.Posts)
+    {
+        <div class="post">
+            @if (post.CanDelete)
+            {
+                <a class="delete" asp-page="Index" asp-page-handler="DeletePost" asp-route-postId="@post.Id">>Usuń Post</a>
+            }
+            <div class="title">@post.Author</div>
+            <div class="title">@post.Title</div>
+            <div class="slider">
+                <div class="photo">
+                    @foreach (var img in post.Images)
+                    {
+                        <div class="png"><img src="@img.ImagePath" /></div>
+                    }
+                </div>
             </div>
+            <div class="tagsContainer">
+                @foreach (var tag in post.Tags)
+                {
+                    <div class="tag">#@tag</div>
+                }
+            </div>
+            <br />
+            <div class="postDescription">@post.Description</div>
+            <div class="comments">
+                @foreach (var comment in post.Comments)
+                {
+
+                    <div class="comment">
+                        @if (comment.CanDelete)
+                        {
+                            <a class="delete" asp-page="Index" asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id">Usuń Komentarz</a>
+                        }
+                        <div class="info">@comment.Author, @comment.IP, @comment.CreatedAt.ToString("dd.MM.yyyy HH:MM")</div>
+                        <div class="content">@comment.Content</div>
+                    </div>
+                }
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form action="/Comments/Create" method="POST">
+                    <input type="hidden" value="@post.Id" name="Form.PostId"/>
+                    <textarea class="commentInput" type="text" placeholder="Dodaj komentarz!" name="Form.Content"></textarea>
+                    <div class="click-img">
+                        <input type="submit" id="submit" style="display:none" />
+                        <label for="submit">Send</label>
+                    </div>
+                </form>
+            }
         </div>
     }
 </div>

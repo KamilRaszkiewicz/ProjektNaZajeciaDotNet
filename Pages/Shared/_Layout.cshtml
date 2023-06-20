@@ -9,39 +9,36 @@
 <body>
     <header>
         <nav>
-                    <ul>
-                        <li>
-                             <a asp-page="/Index">Index</a>
-                        </li>
-                        <li>
-                            <a asp-page="/Privacy">Privacy</a>
-                        </li>
-                        <li>
-                            <a asp-page="/UserPostings">Postings</a>
-                        </li>
-                        @if(User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item" style="margin-left:auto">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">My posts</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="Identity/Account/Manage">Account</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item" style="margin-left:auto">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                            </li>
-                        }
+            <ul>
+                <li>
+                     <a asp-page="/Index">Index</a>
+                </li>
+                <li>
+                    <a asp-page="/Privacy">Privacy</a>
+                </li>
+                @if(User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item" style="margin-left:auto">
+                        <a class="nav-link text-dark" href="/@User.Identity.Name">My posts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="Identity/Account/Manage">Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item" style="margin-left:auto">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </li>
+                }
 
-                    </ul>
+            </ul>
         </nav>
     </header>
     <div class="container">

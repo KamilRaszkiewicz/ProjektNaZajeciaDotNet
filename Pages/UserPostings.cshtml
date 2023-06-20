@@ -1,49 +1,58 @@
-﻿@page
+﻿@page "/{userName}/{pageIndex:int?}"
 @model Projekt.Pages.UserPostingsModel
 @{
     ViewData["Title"] = "Postings";
    
 }
 <menu>
-    <div class="container">
-     <div class="title">Tytuł</div>
-        <div class="slider">
-            <div class="photo">
-                <div class="png"><img src="~/css/Diagram stanów.png" /></div>
-                <div class="png"><img src="~/css/Diagram stanów.png" /></div>
-                <div class="png"><img src="~/css/Diagram stanów.png" /></div>
-                <div class="png"><img src="~/css/Diagram stanów.png" /></div>
-                <div class="png"><img src="~/css/Diagram stanów.png" /></div>
-            </div>
-        </div>
-       <div class="tag">#Tag1</div>
-       <div class="tag">#Tag2</div>
-       <br/>
-       <div class="comments">
-           <div class="post">
-               <div class="info">192.168.0.1 13-06-2023</div>
-               <div class="content"> Nie podoba mi się ogółem to </div>
-           </div>
-            <div class="post">
-                <div class="info">192.168.0.1 13-06-2023</div>
-                <div class="content"> Nie podoba mi się ogółem to </div>
-            </div>
-            <div class="post">
-                <div class="info">192.168.0.1 13-06-2023</div>
-                <div class="content"> Nie podoba mi się ogółem to </div>
-            </div>
-        </div>
-
-
+    @if(User.IsInRole("admin") && Model.UserName != User.Identity.Name)
+    {
+        <a asp-page="UserPostings" asp-page-handler="DeleteUser" asp-route-userId="@Model.UserName">Usuń użytkownika @Model.UserName</a>
+    }
+    <div class="posts">
+            @foreach (var post in Model.Posts)
+            {
+                <div class="post">
+                    @if (post.CanDelete)
+                    {
+                        <a asp-page="UserPostings" asp-page-handler="DeletePost" asp-route-postId="@post.Id">Usuń Post</a>
+                    }
+                    <div class="title">@post.Author</div>
+                    <div class="title">@post.Title</div>
+                    <div class="slider">
+                        <div class="photo">
+                            @foreach (var img in post.Images)
+                            {
+                                <div class="png"><img src="@img.ImagePath" /></div>
+                            }
+                        </div>
+                    </div>
+                    <div class="tagsContainer">
+                        @foreach (var tag in post.Tags)
+                        {
+                            <div class="tag">#@tag</div>
+                        }
+                    </div>
+                    <br />
+                    <div class="postDescription">@post.Description</div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- Tutaj potrzebny formularz dodawania komentarza -->
+                    }
+                    <div class="comments">
+                        @foreach (var comment in post.Comments)
+                        {
+                            @if (comment.CanDelete)
+                            {
+                                <a asp-page="/" asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id">Usuń Komentarz</a>
+                            }
+                            <div class="comment">
+                                <div class="info">@comment.IP</div>
+                                <div class="content">@comment.Content</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
     </div>
-
-    <div class="container">
-
-        <a> Tytuł</a>
-        <div class="photos"></div>
-        <div class="tags"></div>
-        <div class="comment"></div>
-
-    </div>
-
 </menu>

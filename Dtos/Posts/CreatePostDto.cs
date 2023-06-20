@@ -12,8 +12,7 @@ namespace Projekt.Dtos.Posts
         public string Description { get; set; }
         public string TagsString { get; set; }
 
-        [Required]
         [FormImages]
-        public IFormFile[] FormFiles { get; set; } 
+        public IFormFile[]? FormFiles { get; set; } 
     }
 }

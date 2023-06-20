@@ -31,6 +31,10 @@ namespace Projekt.Models
                 .WithOne(c => c.Author)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<Post>()
+                .HasMany(p => p.Images)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
         }
