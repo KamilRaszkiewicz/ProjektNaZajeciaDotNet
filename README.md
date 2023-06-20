@@ -125,3 +125,121 @@ TODO: FIX IT (We won't ;p)
 | [vateusz@ojciecmateusz.pl](mailto:vateusz@ojciecmateusz.pl) | Haslo1234! |
 
 - First account has a role of admin.
+
+### Implemented functionality
+
+#### User profile
+
+- [x] As a not signed in user I can register to the service.
+- [x] As a not signed in user I can reset my password, password recovery procedure should be safe.
+- [x] As a signed in user I can edit my personal data.
+- [x] As a not signed in user I can log in and log out from into/from the service
+- [x] As a user I can have an account with admin permissions
+- [x] As an admin I can delete any user.
+
+#### Blog
+
+- [x] As a signed in user I can create posts. Post has a label, body up to 256 chars and tags. One post can have many tags. There can be many photos.
+- [x] As a signed in user i can add, delete, edit tags.
+- [x] As a post owner i can edit it with tag, photo changes.
+- [x] As a post owner i can delete it.
+- [x] Any user sees 10 main posts.
+- [x] Any user after going to user personal page sees their posts.
+
+#### Comments
+
+- [x] As a post owner and comment owner or Admin I can delete selected comment.
+
+### Other
+
+- [x] Aesthethic look to the website
+
+Oskar gave all of his heart power into this CSS custom styling and after seeing how beautiful it turned out we are not even mad anymore at  the fact that he removed bootstrap early in the development of the project.
+
+- [x] Clean Architecture
+
+  - [x] Viewmodels
+
+  They are stored in Dtos catalogue.
+
+  ```
+  Dtos
+  ├── Comments
+  │   ├── CommentDto.cs
+  │   ├── CreateCommentDto.cs
+  │   └── DeleteCommentDto.cs
+  ├── ImageDto.cs
+  └── Posts
+      ├── CreatePostDto.cs
+      ├── DeletePostDto.cs
+      └── PostDto.cs
+  ```
+
+  ```C#
+  # Create.cshtml.cs
+  .
+  .
+  .
+  [BindProperty]
+  public CreateCommentDto Form { get; set; }
+  .
+  .
+  .
+  ```
+
+  Thanks to model binding when OnPost() is invoked our viewmodel gets the information first and then it sends them over to proper entity ones stored in Models/Entities catalogue.
+
+  ```
+  Models
+  ├── ApplicationDbContext.cs
+  └── Entities
+      ├── Comment.cs
+      ├── Image.cs
+      ├── Post.cs
+      ├── Tag.cs
+      └── User.cs
+  ```
+
+  - [x] Services
+
+  Various services are used in the project. One using mentioned SMTP Server is EmailSender which function is well... sending emails. It provides function that gets email, subject, message and it does what it should. It implements IEmailSender interface that is a part of ASP.NET Core identity.
+
+  Services are implemented in catalogue Services and its interfaces are in catalogue Interfaces:
+
+  ```bash
+  Services
+  ├── AdminService.cs
+  ├── EmailSender.cs
+  ├── ImagesService.cs
+  ├── PostsService.cs
+  └── Repository.cs
+  Interfaces
+  ├── IAdminService.cs
+  ├── IImagesService.cs
+  ├── IPostsService.cs
+  └── IRepository.cs
+  ```
+
+  We made sure to use proper "life of the object" used by IoC.
+
+  ```C#
+  # Program.cs
+  .
+  .
+  .
+  builder.Services.AddScoped<IPostsService, PostsService>();
+  builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+  builder.Services.AddSingleton<IImagesService, ImagesService>();
+  builder.Services.AddScoped<IAdminService, AdminService>();
+  .
+  .
+  .
+  ```
+
+  - [x] Repositories
+
+  Repositories are implemented via IRepository service which gets TEntity type.
+
+  - [x] Naming
+
+​		We made sure to follow C# and .NET style guides both following syntax, naming etc. [Common C# Coding Conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions).
